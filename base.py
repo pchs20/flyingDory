@@ -5,16 +5,17 @@
 
 import random, pygame, sys
 from pygame.locals import *
+import os
 
 FPS = 30 # frames per second, the general speed of the program
-WINDOWWIDTH = 650 # size of window's width in pixels%
+WINDOWWIDTH = 700 # size of window's width in pixels%
 # WINDOWHEIGHT = 480 # size of windows' height in pixels
 WINDOWHEIGHT = 580 # size of windows' height in pixels
 REVEALSPEED = 8 # speed boxes' sliding reveals and covers
-BOXSIZE = 50 # size of box height & width in pixels
+BOXSIZE = 100 # size of box height & width in pixels
 GAPSIZE = 10 # size of gap between boxes in pixels
-BOARDWIDTH = 10 # number of columns of icons
-BOARDHEIGHT = 7 # number of rows of icons
+BOARDWIDTH = 6 # number of columns of icons
+BOARDHEIGHT = 4 # number of rows of icons
 assert (BOARDWIDTH * BOARDHEIGHT) % 2 == 0, 'Board needs to have an even number of boxes for pairs of matches.'
 XMARGIN = int((WINDOWWIDTH - (BOARDWIDTH * (BOXSIZE + GAPSIZE))) / 2)
 YMARGIN = int((WINDOWHEIGHT - (BOARDHEIGHT * (BOXSIZE + GAPSIZE))) / 2)
@@ -47,6 +48,9 @@ OVAL = 'oval'
 ALLCOLORS = (RED, GREEN, BLUE, YELLOW, ORANGE, PURPLE, CYAN)
 ALLSHAPES = (DONUT, SQUARE, DIAMOND, LINES, OVAL)
 assert len(ALLCOLORS) * len(ALLSHAPES) * 2 >= BOARDWIDTH * BOARDHEIGHT, "Board is too big for the number of shapes/colors defined."
+
+image = pygame.image.load('logoIbee.png')
+image = pygame.transform.scale(image,[100,100])
 
 def main():
     global FPSCLOCK, DISPLAYSURF
@@ -182,6 +186,9 @@ def getBoxAtPixel(x, y):
 
 
 def drawIcon(shape, color, boxx, boxy):
+    left, top = leftTopCoordsOfBox(boxx, boxy)
+    DISPLAYSURF.blit(image, (left, top))
+    """
     quarter = int(BOXSIZE * 0.25) # syntactic sugar
     half =    int(BOXSIZE * 0.5)  # syntactic sugar
 
@@ -200,6 +207,7 @@ def drawIcon(shape, color, boxx, boxy):
             pygame.draw.line(DISPLAYSURF, color, (left + i, top + BOXSIZE - 1), (left + BOXSIZE - 1, top + i))
     elif shape == OVAL:
         pygame.draw.ellipse(DISPLAYSURF, color, (left, top + quarter, BOXSIZE, half))
+    """
 
 
 def getShapeAndColor(board, boxx, boxy):
